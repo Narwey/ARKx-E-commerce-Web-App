@@ -126,9 +126,6 @@ const AddCustomer = async (req, res) => {
   const searchCustomers = async (req, res) => {
     const { query, page, sort } = req.query;
   
-    if (!query || typeof query !== 'string') {
-      return res.status(400).json({ message: 'Invalid or missing query parameter' });
-    }
   
     // Define the default limit
     const defaultLimit = 10;
