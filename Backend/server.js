@@ -1,11 +1,9 @@
-const express = require('express');
-const app = express();
-const port = 3000;
+require('./config/db');
+const app = require('./app');
 
-// Define a route
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
+const port = 3000 ;
+
+
 
 // Start the server
 app.listen(port, () => {
