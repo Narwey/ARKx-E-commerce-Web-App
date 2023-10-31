@@ -81,7 +81,7 @@ const AddUser = async (req, res) => {
       Welcome, ${firstName} ${lastName}!\n
       Your account has been created with the following credentials:
       Username: ${username}
-      Password: [your-password-here]\n
+      Password: ${password}\n
       Please change your password after your first login for security.\n
       Thank you for using our service.
     `;
