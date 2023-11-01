@@ -7,7 +7,10 @@ const SubcategorySchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'categories', // Reference to your Category model
   },
-  active: Boolean,
+  active: {
+  type: Boolean,
+  default: false,
+}
 });
 
 module.exports  = mongoose.model('subcategories', SubcategorySchema);

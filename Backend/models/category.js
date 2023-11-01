@@ -8,6 +8,11 @@ const categorySchema = new Schema({
     unique:true
 },
 
-  active: Boolean,})
+  active: {
+    type: Boolean,
+    default: false,
+  }
+  
+  })
 
 module.exports = mongoose.model('categories', categorySchema);

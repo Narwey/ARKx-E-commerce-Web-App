@@ -26,7 +26,7 @@ const addProduct = async (req, res) => {
         sku,
         product_image, // Use the client-provided product image
         product_name,
-        subcategory_id: subcategory_id,
+        subcategory: subcategory_id,
         short_description,
         long_description,
         price,
@@ -35,11 +35,12 @@ const addProduct = async (req, res) => {
         options,
         active: false,
       });
-  
+      
       await newProduct.save();
-  
+      console.log(newProduct);
       res.status(201).json({
         status: 201,
+        data : newProduct ,
         message: 'Product created successfully',
       });
     } catch (error) {
