@@ -124,42 +124,42 @@ const AddCustomer = async (req, res) => {
   };
 
   const searchCustomers = async (req, res) => {
-    const { query, page, sort } = req.query;
-  
-  
-    // Define the default limit
-    const defaultLimit = 10;
-  
     try {
-      const regexQuery = new RegExp(query, 'i');
+      let filteredCustomers;
   
-      // Use Mongoose to search for customers in the database
-      const filteredCustomers = await Customer.find({
-        $or: [
-          { firstName: { $regex: regexQuery } },
-          { lastName: { $regex: regexQuery } },
-          { email: { $regex: regexQuery } },
-          { username: { $regex: regexQuery } },
-        ],
-      });
+      if (req.query && req.query.query && req.query.page && req.query.sort) {
+        const { query, page, sort } = req.query;
+        const regexQuery = new RegExp(query, 'i');
   
-      // Pagination, sorting, and response
-      const pageInt = parseInt(page) || 1;
-      const startIndex = (pageInt - 1) * defaultLimit;
-      const endIndex = startIndex + defaultLimit;
+        filteredCustomers = await Customer.find({
+          $or: [
+            { firstName: { $regex: regexQuery } },
+            { lastName: { $regex: regexQuery } },
+            { email: { $regex: regexQuery } },
+            { username: { $regex: regexQuery } },
+          ],
+        });
   
-      // Sort the results
-      if (sort === 'DESC') {
-        filteredCustomers.sort((a, b) => b.creationDate - a.creationDate);
+        // Pagination, sorting
+        const defaultLimit = 10;
+        const pageInt = parseInt(page) || 1;
+        const startIndex = (pageInt - 1) * defaultLimit;
+        const endIndex = startIndex + defaultLimit;
+  
+        if (sort === 'DESC') {
+          filteredCustomers.sort((a, b) => b.creationDate - a.creationDate);
+        } else {
+          filteredCustomers.sort((a, b) => a.creationDate - b.creationDate);
+        }
+  
+        filteredCustomers = filteredCustomers.slice(startIndex, endIndex);
       } else {
-        filteredCustomers.sort((a, b) => a.creationDate - b.creationDate);
+        filteredCustomers = await Customer.find();
       }
-  
-      const paginatedCustomers = filteredCustomers.slice(startIndex, endIndex);
   
       res.status(200).json({
         status: 200,
-        data: paginatedCustomers,
+        data: filteredCustomers,
       });
     } catch (error) {
       console.error('Error searching customers:', error);
