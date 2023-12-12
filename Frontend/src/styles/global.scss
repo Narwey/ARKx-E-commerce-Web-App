@@ -1,0 +1,59 @@
+@import "./variables.scss";
+@import "./responsive.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: $dark-color; // Text color for links
+}
+
+.main {
+  font-family: "Inter", sans-serif;
+  background-color: $main-bg; // Main background color
+  color: $main-color; // Main text color
+}
+
+.container {
+  display: flex;
+}
+
+.menuContainer {
+  width: 250px;
+  padding: 5px 20px;
+  border-right: 2px solid $soft-bg; // Soft background for border
+
+  @include lg{
+    width: max-content;
+  }
+}
+
+.contentContainer {
+  height: fit-content;
+  padding: 15px 20px;
+  width: 100%;
+  overflow: auto; // Correct 'Overflow' to 'overflow'
+  border: 1px solid $soft-bg; // Soft background for border
+  background-color: $soft-bg; // Soft background color
+}
+
+.button {
+    position: relative;
+    background: #ffffff;
+    color: #000;
+    border-radius: 10px;
+    width: 150px;
+    height: 50px;
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}

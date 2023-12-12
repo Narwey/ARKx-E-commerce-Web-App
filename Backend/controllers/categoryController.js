@@ -32,39 +32,31 @@ const createCategory = async(req , res) => {
 
 
 };
-
-
-
-
-
-
-
-
 // get list of Categories
 
-// const allCategory = async (req, res) => {
-//     try {
-//         const page = parseInt(req.query.page) || 1;
-//         const limit = 10;
-//         const skip = (page - 1) * limit;
+const allCategory = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        // const limit = 10;
+        // const skip = (page - 1) * limit;
         
-//         const categories = await Category.find().skip(skip).limit(limit);
-//         const totalCategories = await Category.countDocuments(); // Get the total number of categories
+        const categories = await Category.find()
+        const totalCategories = await Category.countDocuments(); // Get the total number of categories
         
-//         // Check if there are no categories
-//         if (categories.length === 0) {
-//             return res
-//             .status(200)
-//             .json({ status: 200, data: [], total: totalCategories, page });
-//         }
+        // Check if there are no categories
+        if (categories.length === 0) {
+            return res
+            .status(200)
+            .json({ status: 200, data: [], total: totalCategories, page });
+        }
         
-//         res.status(200)
-//         .json({ status: 200, data: categories, total: totalCategories, page });
-//     } catch (err) {
-//         console.error(err);
-//       res.status(500).json({ status: 500, message: "Internal Server Error" });
-//     }
-//   };
+        res.status(200)
+        .json({ status: 200, data: categories, total: totalCategories, page });
+    } catch (err) {
+        console.error(err);
+      res.status(500).json({ status: 500, message: "Internal Server Error" });
+    }
+  };
 
   
   
@@ -210,4 +202,4 @@ const deleteById = async (req, res) => {
 };
 
 
-module.exports = {createCategory , searchCategory, CategoryById, updateCategory, deleteById};
+module.exports = {createCategory , allCategory , searchCategory, CategoryById, updateCategory, deleteById};

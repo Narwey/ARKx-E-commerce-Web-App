@@ -3,14 +3,15 @@ const router = express.Router();
 const productController = require('../controllers/productController');
 const checkRole = require('../middleware/checkRole');
 const authenticated = require('../middleware/auth');
+const {upload}=require("../multer")
 
 
-router.post('/', authenticated , checkRole(['admin','manager']) , productController.addProduct);
-// router.get('/', productController.listProducts);
-router.get('/',  authenticated , productController.searchProducts);
+router.post('/', upload.single("product_image"), productController.addProduct);
+router.get('/', productController.listProducts);
+router.get('/p',  productController.searchProducts); 
 router.get('/p/:id', productController.getProductById);
-router.put('/:id', checkRole(['admin','manager']) , productController.updateProduct);
-router.delete('/:id' , checkRole(['admin','manager']) , productController.deleteProductById);
+router.put('/:id', upload.single("product_image"), productController.updateProduct);
+router.delete('/:id' , productController.deleteProductById);
 
 
 

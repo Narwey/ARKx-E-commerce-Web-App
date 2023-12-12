@@ -62,7 +62,7 @@ const login = async (req, res) => {
 
 const AddUser = async (req, res) => {
   const { firstName, lastName, email, username, password, role } = req.body;
-
+  console.log(firstName);
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -118,15 +118,10 @@ const AddUser = async (req, res) => {
 
  const getUsers = async (req, res) => {
   const { page, sort } = req.query;
-  const defaultLimit = 10;
+
 
   try {
-    const currentPage = parseInt(page) || 1;
-    const sortOrder = sort === 'ASC' ? 'asc' : 'desc';
     const users = await User.find()
-      .skip((currentPage - 1) * defaultLimit)
-      .limit(defaultLimit)
-      .sort({ creationDate: sortOrder });
 
     // Format the response
     const formattedUsers = users.map((user) => ({
@@ -134,7 +129,7 @@ const AddUser = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      userName: user.username,
+      username: user.username,
       role: user.role,
       creationDate: user.creationDate,
       lastLogin: user.lastLogin,
@@ -150,6 +145,7 @@ const AddUser = async (req, res) => {
     res.status(500).json({ message: 'Error retrieving users' });
   }
 };
+  
 
 
 const getUserById = async (req, res) => {
@@ -169,7 +165,7 @@ const getUserById = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      userName: user.userName, // Note the corrected field name
+      username: user.userName, // Note the corrected field name
       role: user.role,
       creationDate: user.creationDate,
       lastLogin: user.lastLogin,
@@ -250,6 +246,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const id = req.params.id;
+  
 
   try {
       const deleteUser = await User.findByIdAndDelete(id);

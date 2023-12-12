@@ -42,24 +42,43 @@ const createOrder = async (req, res) => {
         .limit(limit)
         .exec();
   
-      // Calculate total count and itemsTotal
-      const totalCount = await order.countDocuments();
-      let itemsTotal = 0;
-  
-      for (const order of orders) {
+      // Process orders to get desired output structure
+      const processedOrders = await Promise.all(orders.map(async (order) => {
+        // Calculate itemsTotal for each order
+        let itemsTotal = 0;
         for (const orderItem of order.order_items) {
           itemsTotal += orderItem.quantity;
         }
-      }
   
-      res.json({
-        count: totalCount,
-        itemsTotal: itemsTotal,
+        // Extract customer details
+        const customerFirstName = order.customer_id.firstName;
+        const customerLastName = order.customer_id.lastName;
+  
+        // Process and modify order data
+        return {
+          _id: order._id,
+          customerFirstName: customerFirstName,
+          customerLastName: customerLastName,
+          itemsTotal: itemsTotal,
+          orderDate: order.orderDate, // Assuming this property exists in your order schema
+          cartTotalPrice: order.cartTotalPrice, // Assuming this property exists in your order schema
+          status: order.status // Assuming this property exists in your order schema
+        };
+      }));
+  
+      const totalCount = await order.countDocuments();
+  
+      // Sending an object with 'data' key holding processedOrders array and other details
+      res.status(200).json({
+        data: processedOrders,
+        totalCount: totalCount // Optionally, sending total count of orders
       });
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch orders', details: error.message });
     }
   };
+  
+  
 
   const getOrderById = async (req, res) => {
     const id = req.params.id; // Get the order ID from the route parameter

@@ -43,7 +43,6 @@ const loginCustomers = async (req, res) => {
         firstName: customer.firstName,
         lastName: customer.lastName,
         email: customer.email,
-        username: customer.username,
         role: 'customer', // Set role to 'customer' as all logins are for customers
         creationDate: customer.creationDate,
         lastLogin: customer.lastLogin,
@@ -223,27 +222,22 @@ const AddCustomer = async (req, res) => {
     }
   };
 
-  const deleteCustomer = async (req) => {
-    const token = req.headers.authorization.split(" ")[1];
-  
+  const deleteCustomer = async (req, res) => {
+    const id = req.params.id;
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const deleteCustomer = await Customer.findByIdAndDelete(id);
   
-      // Check if the user is a customer
-      if (decoded.role !== "customer") {
-        throw new Error("Not authorized");
-      }
+        if (!deleteCustomer) {
+            return res.status(404).json({ message: 'Customer not found' });
+        }
   
-      // Delete customer data based on the user ID extracted from the token
-      const deletedCustomer = await Customer.findByIdAndDelete(decoded.id);
-  
-      if (!deletedCustomer) {
-        throw new Error("Customer not found");
-      }
-  
-      return { message: "Customer deleted successfully" };
+        res.status(200).json({
+            status: 200,
+            message: 'Customer deleted successfully'
+        });
     } catch (error) {
-      throw new Error(error.message);
+        console.log("wach hadi li fiha l error" , error.message);
+        res.status(500).json({ message: error.message });
     }
   };
 
