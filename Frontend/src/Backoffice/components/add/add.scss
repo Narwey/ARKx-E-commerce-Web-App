@@ -4,30 +4,35 @@
   width: 100vw;
   height: 100vh;
   position: absolute;
-  top: 0;
+  top: -8px;
   left: 0;
   background-color: rgba(0, 0, 0, 0.724);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 6;
 
-  .modal {
-    padding: 50px;
+  .modal-back {
+    padding: 26px 34px;
     border-radius: 10px;
-    background-color: $main-bg;
+    background-color: white;
     position: relative;
 
     h1 {
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       font-size: 24px;
-      color: $soft-color;
+      color: rgb(56, 53, 53);
     }
 
     .close {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 27px;
+      right: 34px;
       cursor: pointer;
+      font-size: 29px;
+      &:hover {
+        color: rgb(56, 53, 53);
+      }
     }
 
     form {
@@ -40,17 +45,18 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        margin-bottom: 20px;
+        gap: 3px;
+        margin-bottom: 5px;
 
         label {
-          font-size: 14px;
+          font-size: 16px;
+          color: rgb(56, 53, 53);
         }
 
         input {
           padding: 10px;
           background-color: transparent;
-          color: white;
+          color: rgb(56, 53, 53);
           outline: none;
           border: 1px solid $soft-color;
           border-radius: 3px;
@@ -60,6 +66,12 @@
         width: 100%;
         padding: 10px;
         cursor: pointer;
+        color: white;
+        margin-top: 10px;
+        background-color: rgb(97, 85, 85);
+        &:hover {
+          background-color: rgb(56, 53, 53);
+        }
       }
     }
   }

@@ -27,7 +27,11 @@
       border-radius: 5px;
 
       &:hover {
-        background-color: $soft-bg;
+        background-color: #CBAFA4;
+        color: #fffdfc;
+        img{
+          filter: brightness(0) invert(1);
+        }
       }
 
       .listItemTitle{

@@ -1,29 +1,28 @@
-import React, { useState } from "react";
+import React, { useState  } from "react";
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
-import sha256 from 'crypto-js/sha256'; // Import the SHA-256 hashing function
+import { useNavigate } from "react-router-dom";
+
 
 function Modal() {
-  const [login, setLogin] = useState({ username: '', password: '' });
-
-  const handleLogin = (e) => {
-    setLogin({ ...login, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Hash the password before sending it to the server
-    const hashedPassword = sha256(login.password).toString();
-
-    fetch('http://localhost:3000/v1/users/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...login, password: hashedPassword }), // Sending the hashed password
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error('Error:', error));
-  };
+  
+    const navigate = useNavigate()
+    const [Login , setLogin] = useState({username:'',password:''})
+    const handleLogin = (e) => {
+        setLogin({...Login , [e.target.name]:e.target.value})
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        fetch("http://localhost:4000/v1/users/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(Login),
+        })
+          .then((res) => res.json())
+          .then((data) => localStorage.setItem("data" , JSON.stringify(data)));
+        navigate('/landingPage');
+          
+    }
 
   return (
     

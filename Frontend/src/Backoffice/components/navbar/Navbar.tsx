@@ -7,9 +7,8 @@ const Navbar = () => {
   const firstName = data && data.user ? data.user.firstName : 'DefaultName';
 
   return (
-    <div className="navbar">
+    <div className="navbar-back px-6">
       <div className="logo">
-        <img src="logo.svg" alt="" />
         <span>HandMadeHaven</span>
       </div>
       <div className="icons">

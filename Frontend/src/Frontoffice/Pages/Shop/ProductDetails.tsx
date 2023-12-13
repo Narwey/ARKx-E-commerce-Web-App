@@ -10,7 +10,7 @@ const ProductDetails = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/v1/products/p/${id}`);
+      const response = await fetch(`http://localhost:4000/v1/products/p/${id}`);
       const data = await response.json();
       const result = data.data
       setProduct(result);
@@ -32,7 +32,7 @@ const ProductDetails = () => {
             <div className="rounded-lg shadow-md mask mask-squircle bg-gray-300 dark:bg-gray-700 mb-4">
               <img
                 className="object-cover w-full h-70"
-                src={`http://localhost:3000/uploads/${product.productImage}`}
+                src={`http://localhost:4000/uploads/${product.productImage}`}
                 alt="Product Image"
               />
               

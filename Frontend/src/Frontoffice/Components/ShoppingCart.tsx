@@ -38,18 +38,19 @@ const Cart = () => {
     return (
         <>
         <NavBar/>
-  <div className="container mx-auto mt-10">
-    <div className="flex shadow-md my-10">
+  <div className="w-full mx-auto mt-10 ">
+    <div className="flex   my-10 px-5">
       <div className="w-3/4 bg-backgroundColor px-10 py-10">
         <div className="flex justify-between border-b pb-8">
-          <h1 className="font-semibold text-2xl font-primary text-yellow-900">Shopping Cart</h1>
-          <h2 className="font-semibold text-2xl font-primary"> Items</h2>
+          <h1 className="font-bold text-3xl font-primary text-yellow-900">Shopping Cart</h1>
+          <h2 className="font-semibold text-2xl font-primary text-gray-600"> {cartItems.length} Items </h2>
         </div>
         <div className="flex mt-10 mb-5">
-          <h3 className="font-semibold text-yellow-900 text-xs uppercase w-2/5 font-primary">Product Details</h3>
-          <h3 className="font-semibold text-center text-yellow-900 text-xs uppercase w-1/5 font-primary">Quantity</h3>
-          <h3 className="font-semibold text-center text-yellow-900 text-xs uppercase w-1/5 font-primary">Price</h3>
-          <h3 className="font-semibold text-center text-yellow-900 text-xs uppercase w-1/5 font-primary">Total</h3>
+          <h3 className="font-semibold text-yellow-900 text-lg uppercase w-5/12 font-primary">Product Details</h3>
+          <h3 className="font-semibold text-center text-yellow-900 text-lg uppercase w-2/12 font-primary">Quantity</h3>
+          <h3 className="font-semibold text-center text-yellow-900 text-lg uppercase w-2/12 font-primary">Price</h3>
+          <h3 className="font-semibold text-center text-yellow-900 text-lg   uppercase w-2/12 font-primary">Total</h3>
+          <h3 className="font-semibold text-center text-yellow-900 text-lg   uppercase w-1/12 font-primary">Action</h3>
         </div>
         
         
@@ -57,33 +58,33 @@ const Cart = () => {
           cartItems.map((item, index)=> (
 
             <div key={index} className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
-             <div className="flex w-2/5">
+             <div className="flex w-5/12">
               <div className="w-20">
-                <img className="h-24 w-full " src={`http://localhost:3000/uploads/${item.product_image}`} alt=""/>
+                <img className="h-24 w-full " src={`http://localhost:4000/uploads/${item.product_image}`} alt=""/>
               </div>
               <div className="flex flex-col justify-between ml-4 flex-grow">
-                <span className="font-bold text-sm font-primary">{item.product_name}</span>
-                <span className="text-yellow-900 text-xs font-primary">{item.subcategory.subcategoryName}</span>
+                <span className="font-bold text-lg font-primary text-gray-600">{item.product_name}</span>
+                <span className="text-yellow-900 text-lg font-primary">{item.subcategory.subcategoryName}</span>
                 
                 {/* <a href="#" className="font-semibold hover:text-red-500 text-gray-500 text-xs">Remove</a> */}
-              </div>
+              </div>  
               {/* <MdDeleteOutline /> */}
               
             </div>
-            <div className="flex justify-center w-1/5">
+            <div className="flex justify-center w-2/12">
               <svg className="fill-current text-gray-600 w-3 cursor-pointer" viewBox="0 0 448 512" onClick={()=>updateQuantity(index, item.quantity - 1)}><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
               </svg>
   
-              <input className="mx-2 border text-center w-11 rounded h-7" type="text"  value={item.quantity} onChange={(e) => updateQuantity(index, e.target.value)}/>
+              <input className="mx-2 border text-center w-11 rounded h-7 text-gray-600" type="text"  value={item.quantity} onChange={(e) => updateQuantity(index, e.target.value)}/>
   
               <svg className="fill-current text-gray-600 w-3 cursor-pointer" viewBox="0 0 448 512" onClick={()=>updateQuantity(index, item.quantity + 1)}>
                 <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
               </svg>
             </div>
-            <span className="text-center w-1/5 font-semibold text-sm font-primary">{item.price} MAD</span>
-            <span className="text-center w-1/5 font-semibold text-sm font-primary">{item.price * item.quantity} MAD</span>
-            <div>
-              <MdDeleteOutline className="text-xl cursor-pointer " />
+            <span className="text-center w-2/12 font-semibold text-sm font-primary text-gray-600">{item.price} MAD</span>
+            <span className="text-center w-2/12 font-semibold text-sm font-primary text-gray-600">{item.price * item.quantity} MAD</span>
+            <div className="flex justify-center w-1/12">
+              <MdDeleteOutline className="text-2xl cursor-pointer text-gray-600 hover:text-red-700 " />
               </div>
           </div>
           )
@@ -99,9 +100,9 @@ const Cart = () => {
         </a>
       </div>
 
-      <div id="summary" className="w-1/4 px-8 py-10">
-        <h1 className="font-semibold text-2xl border-b pb-8 font-primary">Order Summary</h1>
-        <div className="flex justify-between mt-10 mb-5">
+      <div id="summary" className="w-1/4 px-8 py-10 text-gray-600">
+        <h1 className="font-semibold text-2xl border-b pb-8 font-primary text-gray-600">Order Summary</h1>
+        <div className="flex justify-between mt-10 mb-5 text-gray-600">
           <span className="font-semibold text-sm uppercase">Items 3</span>
           <span className="font-semibold text-sm font-primary">590$</span>
         </div>

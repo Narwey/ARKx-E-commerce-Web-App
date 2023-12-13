@@ -1,5 +1,5 @@
 @import "./variables.scss";
-@import "./responsive.scss";
+// @import "./responsive.scss";
 
 * {
   margin: 0;
@@ -20,16 +20,21 @@ a {
 
 .container {
   display: flex;
+  width: 100% !important;
 }
 
 .menuContainer {
   width: 250px;
   padding: 5px 20px;
   border-right: 2px solid $soft-bg; // Soft background for border
+  box-shadow: -7px 26px 22px -5px;
+  z-index: 3;
 
-  @include lg{
-    width: max-content;
-  }
+  
+  position: relative;
+  // @include lg{
+  //   width: max-content;
+  // }
 }
 
 .contentContainer {
@@ -42,18 +47,29 @@ a {
 }
 
 .button {
-    position: relative;
-    background: #ffffff;
-    color: #000;
-    border-radius: 10px;
-    width: 150px;
-    height: 50px;
-    font-size: 17px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  background: #ffffff;
+  color: #000;
+  border-radius: 10px;
+  width: 150px;
+  height: 50px;
+  font-size: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.item .listItem {
+  img {
+    filter: grayscale(100%) brightness(0.5) saturate(0%);
+  }
+}
+.navbar-back {
+
+  box-shadow: 0px -6px 13px 1px;
+  z-index: 2;
+  position: relative;
 }

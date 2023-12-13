@@ -3,6 +3,7 @@ import BigChartBox from "../../components/bigChartBox/BigChartBox";
 import ChartBox from "../../components/chartBox/ChartBox";
 import PieChartBox from "../../components/pieCartBox/PieChartBox";
 import TopBox from "../../components/topBox/TopBox";
+import Footer from "../../components/footer/Footer";
 import {
   barChartBoxRevenue,
   barChartBoxVisit,
@@ -15,6 +16,7 @@ import "./home.scss";
 
 const Home = () => {
   return (
+    <>
     <div className="home">
       <div className="box box1">
         <TopBox />
@@ -44,6 +46,8 @@ const Home = () => {
         <BarChartBox {...barChartBoxRevenue} />
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 

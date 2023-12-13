@@ -30,12 +30,14 @@ const queryClient = new QueryClient();
 
 function App() {
 
-  const isInSecondApp = window.location.pathname.startsWith('/second-app');
+  const isInSecondApp = window.location.pathname.startsWith('/landingPage');
   return (
+    <div className='bg-white'>
+      
     <Router>
       {!isInSecondApp && <Navbar />}
-      <div className={!isInSecondApp ? "container" : ""}>
-        <div className={isInSecondApp ? "menuContainer" : ""}>
+      <div className={!isInSecondApp ? "flex w-full" : ""}>
+        <div className={!isInSecondApp ? "menuContainer" : ""}>
           {!isInSecondApp && <Menu />}
         </div>
         <div className={!isInSecondApp ? "contentContainer" : ""}>
@@ -51,18 +53,19 @@ function App() {
               <Route path="/users/:_id" element={<User />} />
               <Route path="/products/:id" element={<Product />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/second-app" element={<LandingPage />} />
-              <Route path="/second-app/signup" element={<Signup />} />
-              <Route path="/second-app/about" element={<About />} />
-              <Route path="/second-app/products" element={<ProductsSecond />} />
-              <Route path="/second-app/shoppingcart" element={<ShoppingCart />} />
-              <Route path="/second-app/productdetails/:id" element={<ProductDetails />} />
+              <Route path="/landingPage" element={<LandingPage />} />
+              <Route path="/landingPage/signup" element={<Signup />} />
+              <Route path="/landingPage/about" element={<About />} />
+              <Route path="landingPage/products" element={<ProductsSecond />} />
+              <Route path="/landingPage/shoppingcart" element={<ShoppingCart />} />
+              <Route path="/landingPage/productdetails/:id" element={<ProductDetails />} />
             </Routes>
           </QueryClientProvider>
         </div>
       </div>
-      {!isInSecondApp &&<Footer />}
+      {/* {!isInSecondApp &&<Footer />} */}
     </Router>
+    </div>
   );
 }
 

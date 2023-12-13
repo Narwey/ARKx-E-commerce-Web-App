@@ -17,44 +17,13 @@ const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ];
-const subCategories = [
-  { name: "Kitchen accessories", href: "#" },
-  { name: "Vases and planters", href: "#" },
-  { name: "Bags", href: "#" },
-  { name: "Moroccan pottery", href: "#" },
-  { name: "Rugs and mates", href: "#" },
-];
-const filters = [
-  // {
-  //   id: 'color',
-  //   name: 'Color',
-  //   options: [
-  //     { value: 'white', label: 'White', checked: false },
-  //     { value: 'beige', label: 'Beige', checked: false },
-  //     { value: 'blue', label: 'Blue', checked: true },
-  //     { value: 'brown', label: 'Brown', checked: false },
-  //     { value: 'green', label: 'Green', checked: false },
-  //     { value: 'purple', label: 'Purple', checked: false },
-  //   ],
-  // },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "new-arrivals", label: "New Arrivals", checked: false },
-      { value: "sale", label: "Sale", checked: false },
-      { value: "Ceramic & pottery", label: "Ceramic & pottery", checked: true },
-      { value: "Crochet", label: "Crochet", checked: false },
-      { value: "Broidery", label: "Broidery", checked: false },
-    ],
-  },
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Products = () => {
+  const [searchQuery, setSearchQuery] = useState(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,13 +31,14 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [sortOption, setSortOption] = useState("Most Popular");
-
-  const [searchQuery, setSearchQuery] = useState("");
+  const [subcategories, setSubcategories] = useState([]);
+  console.log("searchQuery",searchQuery);
   
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("http://localhost:3000/v1/categories");
+      
+      const response = await fetch("http://localhost:4000/v1/categories");
       const categoryData = await response.json();
       console.log("categoryData", categoryData);
       setCategories(categoryData.data);
@@ -77,10 +47,27 @@ const Products = () => {
     }
   };
   // Fetch data from the backend
+  const fetchSubcategories = async () => {
+    try{
+      const response = await fetch("http://localhost:4000/v1/subcategories");
+      const subcategoryData = await response.json();
+      console.log("subcategoryData", subcategoryData);
+      
+      // console.log("filteredSubcategories", filteredSubcategories);
+      
+      setSubcategories(subcategoryData.data);
+
+    } catch (error) {
+      console.error("Error fetching subcategories:", error);
+    } };
+
+
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/v1/products");
+      const response = await fetch("http://localhost:4000/v1/products");
       const data = await response.json();
+      // console.log("data", data);
+      
       setProducts(data);
       setFilteredItems(data); // Initially, display all items
     } catch (error) {
@@ -88,30 +75,41 @@ const Products = () => {
     }
   };
   useEffect(() => {
-    fetchData(searchQuery);
+    fetchData();
     fetchCategories();
+    fetchSubcategories();
   }, []);
   // Callback function to handle search query from NavBar
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-  };
+  // const handleSearch = (query) => {
+  //   setSearchQuery(query);
+  // };
 
   // const filterProductsByCategory = (categoryValue) => {
   //   const filtered = menu.filter((item) => item.category.toLowerCase() === categoryValue.toLowerCase());
   //   setFilteredItems(sortItems(filtered, sortOption, false));
   //   setCurrentPage(1);
   // };
-  const filterProductsByCategory = (subcategory_id) => {
-    console.log("Clicked category ID:", subcategory_id); 
+  const filterProductsByCategory = (id) => {
+    // console.log("Clicked category ID:", id); 
+
     const filtered = products.filter(
-      (item) => item.subcategory_id === subcategory_id
+      (item) => item.subcategory.category._id === id
     );
     setFilteredItems(filtered);
     setCurrentPage(1);
-    
+  };
+  const filterProductsBySubcategory = (id)=> {
+    // console.log("Clicked subcategory ID:", id); 
+
+    const filtered = products.filter(
+      (item) => item.subcategory._id === id
+    );
+    // console.log("filtered", filtered)
+    setFilteredItems(filtered);
+    setCurrentPage(0);
   };
 
-  console.log("filteredItems", filteredItems);
+  // console.log("filteredItems", filteredItems);
 
   // New function for sorting items
   const sortItems = (items, sortOption) => {
@@ -159,13 +157,14 @@ const Products = () => {
   };
 
   // Search
-  //   const [searchQuery, setSearchQuery] = useState('');
+  
 
-  //   const handleSearch = (e) => {
-  //     const query = e.target.value;
-  //     setSearchQuery(query);
-  //     onSearch(query); // Pass the query to the parent component for filtering
-  //   };
+    // const handleSearch = (e) => {
+
+    //   const query = e.target.value;
+    //   console.log("query", query);
+    //   setSearchQuery(query);
+    // };
 
   const handleSortChange = (value) => {
     if (value === "Sort by...") {
@@ -177,14 +176,14 @@ const Products = () => {
 
   return (
     <>
-      <NavBar onSearch={handleSearch} />
+      <NavBar setItem = {setFilteredItems} page={setCurrentPage} />
 
       {/* filter component */}
 
       <div className="bg-backgroundColor">
         <div>
           {/* Mobile filter dialog */}
-          <Transition.Root show={mobileFiltersOpen} as={Fragment}>
+          {/* <Transition.Root show={mobileFiltersOpen} as={Fragment}>
             <Dialog
               as="div"
               className="relative z-40 lg:hidden"
@@ -228,7 +227,7 @@ const Products = () => {
                     </div>
 
                     {/* Filters */}
-                    <form className="mt-4 border-t border-gray-200">
+                    {/* <form className="mt-4 border-t border-gray-200">
                       <h3 className="sr-only">Categories</h3>
                       <ul
                         role="list"
@@ -305,7 +304,7 @@ const Products = () => {
                 </Transition.Child>
               </div>
             </Dialog>
-          </Transition.Root>
+          </Transition.Root>  */}
 
           {/* Sort dropdown
            <div className="flex items-center justify-between px-4 py-3">
@@ -342,7 +341,7 @@ const Products = () => {
               <div className="flex items-center">
                 {/* nav bar filter */}
 
-                <Menu as="div" className="relative inline-block text-left">
+                <Menu as="div" className="relative inline-block text-left">   
                   {/* sort icon */}
 
                   <div>
@@ -423,20 +422,7 @@ const Products = () => {
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-12">
                 {/* Filters */}
                 <form className="hidden lg:block lg:col-span-2">
-                  <h3 className="sr-only">Categories</h3>
-                  <ul
-                    role="list"
-                    className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900"
-                  >{categories.map((category) => (
-                    <li
-                      key={category._id}
-                      onClick={() => filterProductsByCategory(category.subcategory_id)}
-                    >
-                      {category.categoryName}
-                    </li>
-                  ))}
-
-                  </ul>
+                  
 
                   <Disclosure
                     as="div"
@@ -465,23 +451,24 @@ const Products = () => {
                           </Disclosure.Button>
                         </h3>
                         <Disclosure.Panel className="pt-6">
-                          <div className="space-y-4">
+                          <div className="space-y-1">
                             {categories.map((option, optionIdx) => (
                               <div
                                 key={optionIdx}
-                                className="flex items-center"
+                                className="flex items-center hover:bg-[#e7d5ce4f] cursor-pointer py-2"
+                                onClick={() => filterProductsByCategory(option._id)}
                               >
-                                <input
+                                {/* <input
                                   id={`filter-${optionIdx}`}
                                   name={`${option._id}`}
                                   defaultValue={option._id}
                                   type="checkbox"
                                   // defaultChecked={option.checked}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                />
+                                /> */}
                                 <label
                                   htmlFor={`filter-${optionIdx}`}
-                                  className="ml-3 text-sm text-gray-600"
+                                  className="ml-3 text-sm text-gray-600 cursor-pointer "
                                 >
                                   {option.categoryName}
                                 </label>
@@ -492,6 +479,21 @@ const Products = () => {
                       </>
                     )}
                   </Disclosure>
+                  <h3 className="sr-only">Subcategories</h3>
+                  <ul
+                    role="list"
+                    className=" mt-4 space-y-1 border-b border-gray-200 pb-6 text-sm font-medium text-gray-700 "
+                  >{subcategories.map((subcategory) => (
+                    <li
+                      key={subcategory._id}
+                      className="hover:bg-[#e7d5ce4f] cursor-pointer px-4 py-2"
+                      onClick={() => filterProductsBySubcategory(subcategory._id)}
+                    >
+                      {subcategory.subcategoryName}
+                    </li>
+                  ))}
+
+                  </ul>
                 </form>
 
                 {/* Product grid */}

@@ -24,7 +24,7 @@ const Cards = ({ item }) => {
   };
   return (
     <div
-      to={`/Productdetails/${item._id}`}
+      to={`/landingPage/Productdetails/${item._id}`}
       className="card shadow-xl relative mr-5 md:my-5"
     >
       <div
@@ -35,17 +35,17 @@ const Cards = ({ item }) => {
       >
         <FaHeart className="w-5 h-5 cursor-pointer" />
       </div>
-      <Link to={`/Productdetails/${item._id}`}>
+      <Link to={`/landingPage/Productdetails/${item._id}`}>
         <figure>
           <img
-            src={`http://localhost:3000/uploads/${item.product_image}`}
+            src={`http://localhost:4000/uploads/${item.product_image}`}
             alt="img"
             className="transition-all duration-300 md:h-72"
           />
         </figure>
       </Link>
       <div className="card-body">
-        <Link to={`/Productdetails/${item._id}`}>
+        <Link to={`landingPage/Productdetails/${item._id}`}>
           <h2 className="card-title font-primary text-yellow-900">
             {item.product_name}
           </h2>
@@ -62,7 +62,7 @@ const Cards = ({ item }) => {
           <button
           onClick={() => {
             handleAddToCart();
-            window.location.href = "/shoppingCart"; // Redirect to shopping cart
+            window.location.href = "landingPage/shoppingCart"; // Redirect to shopping cart
           }}
           className="btn btn-outline flex items-center justify-center font-primary rounded-md bg-customColor px-5 py-2.5 w-full text-center text-sm font-medium text-white hover:bg-customColorHover hover:text-yellow-900 focus:outline-none focus:ring-4 focus:ring-blue-300 "
         >

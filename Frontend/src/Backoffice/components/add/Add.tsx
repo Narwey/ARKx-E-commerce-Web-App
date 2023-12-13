@@ -103,7 +103,7 @@ const Add = (props: Props) => {
 
   return (
     <div className="add">
-      <div className="modal">
+      <div className="modal-back">
         <span className="close" onClick={() => props.setOpen(false)}>
           X
         </span>

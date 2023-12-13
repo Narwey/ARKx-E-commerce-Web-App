@@ -95,8 +95,8 @@ const listProducts = async (req, res) => {
 const searchProducts = async (req, res) => {
   const page = req.query.page || 1; // Default to page 1 if not specified
   const limit = 30;
-  const searchQuery = req.query.query || ""; // Get the search query parameter
-
+  const {searchQuery} = req.query || ""; // Get the search query parameter
+  console.log("Search Query:", req.query);
   try {
     const skip = (page - 1) * limit;
     // Create a regular expression for the search query, enabling a case-insensitive search
@@ -107,39 +107,37 @@ const searchProducts = async (req, res) => {
       .find({
         // Use the $or operator to search in multiple fields if needed
         $or: [
-          { product_name: searchRegex }, // Search in product_name
-          { short_description: searchRegex }, // Search in short_description
-          // Add more fields as needed for your search
+          { product_name: searchRegex }, // Search in product_name // Search in short_description
         ],
       })
-      .populate({
-        path: "subcategory_id",
-        model: "categories", // Reference to your 'Category' model
-        select: "categoryName", // Select only the 'categoryName' field
-      })
+      // .populate({
+      //   path: "subcategory_id",
+      //   model: "categories", // Reference to your 'Category' model
+      //   select: "categoryName", // Select only the 'categoryName' field
+      // })
       .skip(skip)
       .limit(limit)
       .exec();
-
+// console.log("Products:", products);
     // Map the products to include the category name
-    const productsWithCategoryName = products.map((product) => ({
-      _id: product.id,
-      sku: product.sku,
-      product_image: product.product_image,
-      product_name: product.product_name,
-      category_name: product.subcategory
-        ? product.subcategory.categoryName
-        : null, // Check if subcategory is null
-      short_description: product.short_description,
-      long_description: product.long_description,
-      price: product.price,
-      discount_price: product.discount_price,
-      options: product.options,
-      active: product.active,
-    }));
+    // const productsWithCategoryName = products.map((product) => ({
+    //   _id: product.id,
+    //   sku: product.sku,
+    //   product_image: product.product_image,
+    //   product_name: product.product_name,
+    //   category_name: product.subcategory
+    //     ? product.subcategory.categoryName
+    //     : null, // Check if subcategory is null
+    //   short_description: product.short_description,
+    //   long_description: product.long_description,
+    //   price: product.price,
+    //   discount_price: product.discount_price,
+    //   options: product.options,
+    //   active: product.active,
+    // }));
 
     // Send the products as a JSON response with a 200 status code
-    res.status(200).json(productsWithCategoryName);
+    res.status(200).json(products);
   } catch (error) {
     // Handle any errors here
     console.error("Error listing products:", error);
