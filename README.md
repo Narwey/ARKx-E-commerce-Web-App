@@ -1,18 +1,13 @@
-E-Commerce Website
+E-Commerce Website :
+
 This is a full-stack e-commerce website built using the MERN stack (MongoDB, Express.js, React.js, Node.js) and Tailwind CSS.
 
-Table of Contents
-Introduction
-Features
-Technologies Used
-Installation
-Usage
-Contributing
-License
-Introduction
+Introduction :
+
 This project is a fully functional e-commerce website that allows users to browse products, add them to their cart, and complete the checkout process. It provides both frontend and backend functionality, allowing seamless interaction between users and the database.
 
-Features
+Features :
+
 User authentication (signup, login, logout)
 Product browsing by category
 Product search functionality
